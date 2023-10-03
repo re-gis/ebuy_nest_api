@@ -7,6 +7,10 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { UtilsModule } from './utils/utils.module';
 import { User } from './entities/User.entity';
+import { ProductsModule } from './products/products.module';
+import { Product } from './entities/Product.entity';
+import { Order } from './entities/Order.entity';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -23,7 +27,7 @@ import { User } from './entities/User.entity';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASS'),
         database: configService.get('DB_NAME'),
-        entities: [User],
+        entities: [User, Product, Order],
         synchronize: true,
       }),
       inject: [ConfigService],
@@ -33,6 +37,10 @@ import { User } from './entities/User.entity';
     AuthModule,
 
     UtilsModule,
+
+    ProductsModule,
+
+    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

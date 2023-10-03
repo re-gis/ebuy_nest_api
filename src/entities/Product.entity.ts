@@ -18,15 +18,25 @@ export class Product {
   @Column({ nullable: false })
   quantity: number;
 
+  @Column()
+  imageUrl: string;
+
+  @Column()
+  secureUrl: string;
+
   constructor(
     productName: string,
     description: string,
     quantity: number,
     price: number,
+    imageUrl?: string,
+    secureUrl?: string,
   ) {
     this.productName = productName;
     this.price = price;
     this.quantity = quantity;
     this.description = description;
+    this.imageUrl = imageUrl;
+    this.secureUrl = secureUrl;
   }
 }
