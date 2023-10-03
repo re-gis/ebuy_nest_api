@@ -78,4 +78,12 @@ export class ProductsService {
     await this.productRepository.save(product);
     return new ApiResponse(true, 'Product updated successfully!', product);
   }
+
+  async deleteProduct(id: number): Promise<ApiResponse> {
+    const product = await this.productRepository.findOne({ where: { id } });
+    if (!product) return new ApiResponse(false, `Product ${id} not found!`);
+
+    await this.productRepository.remove(product);
+    return new ApiResponse(true, `Product ${id} deleted successfully...`);
+  }
 }

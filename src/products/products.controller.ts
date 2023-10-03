@@ -8,6 +8,7 @@ import {
   Get,
   Param,
   Put,
+  Delete,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductDto } from 'src/DTOS/product.dto';
@@ -43,10 +44,16 @@ export class ProductsController {
   }
 
   @Put('/update/:id')
+  @UseInterceptors(FileInterceptor('file'))
   async updateProduct(
     @Param('id') id: string,
-    attrs: Partial<Product>,
+    @Body() attrs: Partial<ProductDto>,
   ): Promise<ApiResponse> {
     return this.productService.updateProduct(+id, attrs);
+  }
+
+  @Delete('/delete/:id')
+  async deleteProduct(@Param('id') id: string): Promise<ApiResponse> {
+    return this.productService.deleteProduct(+id);
   }
 }
