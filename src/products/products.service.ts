@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ProductDto } from 'src/DTOS/product.dto';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { Product } from 'src/entities/Product.entity';
+import { User } from 'src/entities/User.entity';
 import { ApiResponse } from 'src/payload/ApiResponse';
 import { Repository } from 'typeorm';
 
@@ -70,7 +71,20 @@ export class ProductsService {
     return product;
   }
 
-  async updateProduct(id: number, attrs: any): Promise<ApiResponse> {
+  async updateProduct(
+    id: number,
+    attrs: any,
+    user: User,
+  ): Promise<ApiResponse> {
+    // this is done by admins only
+    if (!user) {
+      return new ApiResponse(false, 'Login to perform this action...');
+    }
+
+    if (user.isAdmin == false) {
+      return new ApiResponse(false, 'Not authorised to perform this action...');
+    }
+
     // get the product
     const product = await this.productRepository.findOne({ where: { id } });
     if (!product) return new ApiResponse(false, `Product ${id} not found!`);
@@ -79,7 +93,16 @@ export class ProductsService {
     return new ApiResponse(true, 'Product updated successfully!', product);
   }
 
-  async deleteProduct(id: number): Promise<ApiResponse> {
+  async deleteProduct(id: number, user: User): Promise<ApiResponse> {
+    // check user role
+    if (!user) {
+      return new ApiResponse(false, 'Login to perform this action...');
+    }
+
+    if (user.isAdmin == false) {
+      return new ApiResponse(false, 'Not authorised to perform this action...');
+    }
+
     const product = await this.productRepository.findOne({ where: { id } });
     if (!product) return new ApiResponse(false, `Product ${id} not found!`);
 

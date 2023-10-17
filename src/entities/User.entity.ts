@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { InitiatorAudit } from 'src/audit/InitiatorAudit';
-import { Column, Entity, PrimaryGeneratedColumn, Table, Unique } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Table, Unique } from 'typeorm';
 import { Order } from './Order.entity';
 
 @Entity('users')
@@ -21,7 +21,7 @@ export class User extends InitiatorAudit {
   @Column({ default: false })
   isAdmin: boolean;
 
-  @Column()
+  @OneToMany(() => Order, order => order.user)
   orders: Order[];
 
   constructor(

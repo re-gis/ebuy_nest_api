@@ -17,7 +17,7 @@ export class UsersService {
   ) {}
 
   async registerUser(dto: RegisterDto): Promise<ApiResponse> {
-    let { username, email, password } = dto;
+    let { username, email, password, isAdmin } = dto;
     if (!username || !email || !password) {
       return new ApiResponse(false, 'All credentials are required');
     } else {
@@ -28,7 +28,7 @@ export class UsersService {
       if (existingUser) {
         return new ApiResponse(false, 'User already have an account');
       } else {
-        const userToCreate = new User(email, username, password);
+        const userToCreate = new User(email, username, password, isAdmin);
         userToCreate.password = await this.utilsService.hashString(password);
 
         try {
