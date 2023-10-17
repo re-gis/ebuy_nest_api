@@ -13,6 +13,9 @@ import { Order } from './entities/Order.entity';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { Order_details } from './entities/Order_details.entity';
 import { OrdersModule } from './orders/orders.module';
+import { Cart } from './entities/Cart.entity';
+import { Cart_Item } from './entities/Cart_Item';
+import { CartsModule } from './carts/carts.module';
 
 @Module({
   imports: [
@@ -29,7 +32,7 @@ import { OrdersModule } from './orders/orders.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASS'),
         database: configService.get('DB_NAME'),
-        entities: [User, Product, Order, Order_details],
+        entities: [User, Product, Order, Order_details, Cart, Cart_Item],
         synchronize: true,
       }),
       inject: [ConfigService],
@@ -37,14 +40,11 @@ import { OrdersModule } from './orders/orders.module';
 
     UsersModule,
     AuthModule,
-
     UtilsModule,
-
     ProductsModule,
-
     CloudinaryModule,
-
     OrdersModule,
+    CartsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

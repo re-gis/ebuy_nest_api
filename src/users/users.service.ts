@@ -39,6 +39,7 @@ export class UsersService {
             'User registered successfully, Login to continue',
           );
         } catch (error) {
+          console.log(error)
           throw new Error('Error while saving user...');
         }
       }

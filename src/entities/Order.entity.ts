@@ -29,8 +29,8 @@ export class Order {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.orders)
-  user: User;
+  @Column({nullable: true})
+  user: number;
 
   @ManyToMany(() => Product)
   @JoinTable()

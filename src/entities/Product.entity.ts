@@ -1,27 +1,27 @@
 /* eslint-disable */
 import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
-
 @Entity('products')
+@Unique(['productName']) // Assuming product names should be unique
 export class Product {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false })
+  @Column()
   productName: string;
 
-  @Column({ nullable: false })
+  @Column()
   description: string;
 
-  @Column({ nullable: false })
+  @Column('decimal')
   price: number;
 
-  @Column({ nullable: false })
+  @Column('int')
   quantity: number;
 
-  @Column()
+  @Column({ nullable: true })
   imageUrl: string;
 
-  @Column()
+  @Column({ nullable: true })
   secureUrl: string;
 
   constructor(
@@ -33,10 +33,10 @@ export class Product {
     secureUrl?: string,
   ) {
     this.productName = productName;
+    this.description = description;
     this.price = price;
     this.quantity = quantity;
-    this.description = description;
-    this.imageUrl = imageUrl;
-    this.secureUrl = secureUrl;
+    this.imageUrl = imageUrl || '';
+    this.secureUrl = secureUrl || '';
   }
 }

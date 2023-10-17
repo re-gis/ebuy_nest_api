@@ -1,8 +1,16 @@
 /* eslint-disable */
 import { InitiatorAudit } from 'src/audit/InitiatorAudit';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Table, Unique } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  Table,
+  Unique,
+} from 'typeorm';
 import { Order } from './Order.entity';
-
+import { Cart } from './Cart.entity';
 @Entity('users')
 @Unique(['email'])
 export class User extends InitiatorAudit {
@@ -21,8 +29,11 @@ export class User extends InitiatorAudit {
   @Column({ default: false })
   isAdmin: boolean;
 
-  @OneToMany(() => Order, order => order.user)
+  @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
+
+  @OneToOne(() => Cart, (cart) => cart.user)
+  cart: Cart;
 
   constructor(
     email: string,
@@ -30,6 +41,7 @@ export class User extends InitiatorAudit {
     password: string,
     isAdmin?: boolean,
     orders?: Order[],
+    cart?: Cart,
   ) {
     super();
     this.username = username;
@@ -37,5 +49,6 @@ export class User extends InitiatorAudit {
     this.password = password;
     this.isAdmin = isAdmin;
     this.orders = orders;
+    this.cart = cart;
   }
 }
