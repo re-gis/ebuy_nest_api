@@ -13,7 +13,7 @@ import {
 } from 'typeorm';
 import { User } from './User.entity';
 import { Product } from './Product.entity';
-import { Order_details } from './Order_details.entity';
+import { Order_Item } from './Order_Item';
 
 @Entity('orders')
 export class Order {
@@ -30,12 +30,14 @@ export class Order {
   updatedAt: Date;
 
   @Column({nullable: true})
-  user: number;
+  @ManyToOne(() => User)
+  @JoinTable()
+  user: User;
 
   @ManyToMany(() => Product)
   @JoinTable()
   products: Product[];
 
-  @OneToMany(() => Order_details, (order_detail) => order_detail.order)
-  orderDetails: Order_details[];
+  @OneToMany(() => Order_Item, (item) => item.order)
+  orderItems: Order_Item[];
 }

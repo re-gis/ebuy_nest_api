@@ -28,4 +28,16 @@ export class CartsController {
   ): Promise<string> {
     return this.cartService.removeItemFromCart(dto);
   }
+
+  @Get('/cart-items')
+  @UseGuards(JwtAuthGuard)
+  async getCartItems(@GetUser() user: User): Promise<string | Cart_Item[]> {
+    return this.cartService.getCartItems(user);
+  }
+
+  @Post('/checkout')
+  @UseGuards(JwtAuthGuard)
+  async checkout(@GetUser() user: User): Promise<string> {
+    return this.cartService.checkout(user);
+  }
 }
